@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>รับคำปรึกษาประกันฟรี</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand: #1a56db;
+      --brand-dark: #1341b0;
+      --accent: #0ea5e9;
+      --success: #16a34a;
+      --bg: #f0f6ff;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, #1a56db 0%, #0ea5e9 100%);
+      color: white;
+      padding: 48px 20px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -40px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 999px;
+      padding: 6px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 16px;
+      letter-spacing: 0.3px;
+    }
+    .hero h1 {
+      font-size: clamp(24px, 5vw, 36px);
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 12px;
+      position: relative; z-index: 1;
+    }
+    .hero p {
+      font-size: 16px;
+      opacity: 0.9;
+      max-width: 420px;
+      margin: 0 auto;
+      line-height: 1.6;
+      position: relative; z-index: 1;
+    }
+
+    /* ===== TRUST BADGES ===== */
+    .trust-row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      padding: 20px 20px 0;
+      margin-top: -1px;
+      background: white;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .trust-item span.icon { font-size: 18px; }
+
+    /* ===== BENEFITS ===== */
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      padding: 24px 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .benefit-card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px 12px;
+      text-align: center;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .benefit-card .emoji { font-size: 28px; margin-bottom: 8px; }
+    .benefit-card .label { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.4; }
+    .benefit-card .sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* ===== FORM CARD ===== */
+    .form-wrap {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 0 20px 48px;
+    }
+    .form-card {
+      background: white;
+      border-radius: 20px;
+      padding: 32px 28px;
+      box-shadow: 0 4px 24px rgba(26,86,219,0.10);
+      border: 1px solid var(--border);
+    }
+    .form-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .form-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .form-group { margin-bottom: 18px; }
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    label .req { color: #ef4444; margin-left: 2px; }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: 'Sarabun', sans-serif;
+      color: var(--text);
+      background: #fafafa;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(26,86,219,0.12);
+      background: white;
+    }
+    input::placeholder, textarea::placeholder { color: #b0bac5; }
+
+    /* insurance type chips */
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .chip-group input[type="checkbox"] { display: none; }
+    .chip-group label {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      background: #f8fafc;
+      color: var(--muted);
+      transition: all 0.15s;
+      user-select: none;
+      margin-bottom: 0;
+    }
+    .chip-group input[type="checkbox"]:checked + label {
+      border-color: var(--brand);
+      background: #e8f0fe;
+      color: var(--brand);
+      font-weight: 600;
+    }
+
+    /* budget radio */
+    .radio-group { display: flex; flex-direction: column; gap: 8px; }
+    .radio-group input[type="radio"] { display: none; }
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      background: #f8fafc;
+      transition: all 0.15s;
+      margin-bottom: 0;
+    }
+    .radio-group label::before {
+      content: '';
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+    .radio-group input[type="radio"]:checked + label {
+      border-color: var(--brand);
+      background: #e8f0fe;
+      color: var(--brand);
+    }
+    .radio-group input[type="radio"]:checked + label::before {
+      border-color: var(--brand);
+      background: var(--brand);
+      box-shadow: inset 0 0 0 3px white;
+    }
+
+    /* submit */
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #1a56db, #0ea5e9);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'Sarabun', sans-serif;
+      cursor: pointer;
+      margin-top: 8px;
+      box-shadow: 0 4px 14px rgba(26,86,219,0.35);
+      transition: transform 0.15s, box-shadow 0.15s;
+      letter-spacing: 0.3px;
+    }
+    .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(26,86,219,0.4); }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+    .privacy-note {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    /* ===== SUCCESS STATE ===== */
+    .success-box {
+      display: none;
+      text-align: center;
+      padding: 16px 0 8px;
+    }
+    .success-box .check-circle {
+      width: 72px; height: 72px;
+      background: #dcfce7;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px;
+      margin: 0 auto 16px;
+    }
+    .success-box h2 { font-size: 22px; font-weight: 700; color: var(--success); margin-bottom: 8px; }
+    .success-box p { font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: white;
+      border-top: 1px solid var(--border);
+      padding: 20px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    /* spinner */
+    .spinner {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 400px) {
+      .form-card { padding: 24px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🛡️ ตัวแทนประกันชีวิต — ที่ปรึกษาด้านความคุ้มครอง</div>
+  <h1>รับคำปรึกษาประกันฟรี<br>ไม่มีค่าใช้จ่าย ไม่มีข้อผูกมัด</h1>
+  <p>เลือกแผนที่เหมาะกับคุณและครอบครัว<br>ผู้เชี่ยวชาญพร้อมแนะนำตรงจุด ภายใน 24 ชั่วโมง</p>
+</div>
+
+<!-- TRUST -->
+<div class="trust-row">
+  <div class="trust-item"><span class="icon">✅</span> ใบอนุญาตตัวแทน</div>
+  <div class="trust-item"><span class="icon">🔒</span> ข้อมูลปลอดภัย</div>
+  <div class="trust-item"><span class="icon">⚡</span> ตอบกลับภายใน 24 ชม.</div>
+</div>
+
+<!-- BENEFITS -->
+<div class="benefits">
+  <div class="benefit-card">
+    <div class="emoji">❤️</div>
+    <div class="label">ประกันชีวิต</div>
+    <div class="sub">ดูแลครอบครัว</div>
+  </div>
+  <div class="benefit-card">
+    <div class="emoji">🏥</div>
+    <div class="label">ประกันสุขภาพ</div>
+    <div class="sub">ค่ารักษาพยาบาล</div>
+  </div>
+  <div class="benefit-card">
+    <div class="emoji">🚗</div>
+    <div class="label">ประกันอุบัติเหตุ</div>
+    <div class="sub">PA / อุบัติเหตุ</div>
+  </div>
+  <div class="benefit-card">
+    <div class="emoji">📈</div>
+    <div class="label">ออมทรัพย์</div>
+    <div class="sub">สะสมและคืนเงิน</div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrap">
+  <div class="form-card">
+
+    <!-- Form -->
+    <div id="form-section">
+      <div class="form-title">กรอกข้อมูลเพื่อรับคำปรึกษา</div>
+      <div class="form-subtitle">ใช้เวลาไม่ถึง 1 นาที · ฟรี · ไม่มีข้อผูกมัด</div>
+
+      <form id="leadForm" novalidate>
+
+        <div class="form-group">
+          <label>ชื่อ-นามสกุล <span class="req">*</span></label>
+          <input type="text" id="f_name" placeholder="เช่น สมชาย ใจดี" required>
+        </div>
+
+        <div class="form-group">
+          <label>เบอร์โทรศัพท์ <span class="req">*</span></label>
+          <input type="tel" id="f_phone" placeholder="0XX-XXX-XXXX" maxlength="10" required>
+        </div>
+
+        <div class="form-group">
+          <label>อายุ <span class="req">*</span></label>
+          <select id="f_age" required>
+            <option value="">— เลือกช่วงอายุ —</option>
+            <option>18–25 ปี</option>
+            <option>26–35 ปี</option>
+            <option>36–45 ปี</option>
+            <option>46–55 ปี</option>
+            <option>56 ปีขึ้นไป</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>ประเภทประกันที่สนใจ <span class="req">*</span></label>
+          <div class="chip-group">
+            <input type="checkbox" id="c1" name="ins_type" value="ชีวิต">
+            <label for="c1">❤️ ชีวิต</label>
+            <input type="checkbox" id="c2" name="ins_type" value="สุขภาพ">
+            <label for="c2">🏥 สุขภาพ</label>
+            <input type="checkbox" id="c3" name="ins_type" value="อุบัติเหตุ">
+            <label for="c3">🚗 อุบัติเหตุ</label>
+            <input type="checkbox" id="c4" name="ins_type" value="ออมทรัพย์">
+            <label for="c4">📈 ออมทรัพย์</label>
+            <input type="checkbox" id="c5" name="ins_type" value="ยังไม่แน่ใจ">
+            <label for="c5">🤔 ยังไม่แน่ใจ</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>งบประมาณต่อเดือน (โดยประมาณ)</label>
+          <div class="radio-group">
+            <input type="radio" id="b1" name="budget" value="ไม่เกิน 500 บาท">
+            <label for="b1">ไม่เกิน 500 บาท/เดือน</label>
+            <input type="radio" id="b2" name="budget" value="500–1,500 บาท">
+            <label for="b2">500 – 1,500 บาท/เดือน</label>
+            <input type="radio" id="b3" name="budget" value="1,500–3,000 บาท">
+            <label for="b3">1,500 – 3,000 บาท/เดือน</label>
+            <input type="radio" id="b4" name="budget" value="3,000 บาทขึ้นไป">
+            <label for="b4">3,000 บาทขึ้นไป</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>ช่องทางที่สะดวกติดต่อ</label>
+          <select id="f_channel" onchange="showContactField(this.value)">
+            <option value="">— เลือก —</option>
+            <option value="โทรศัพท์">📞 โทรศัพท์</option>
+            <option value="LINE">💬 LINE</option>
+            <option value="Facebook Messenger">💙 Facebook Messenger</option>
+            <option value="Instagram DM">📸 Instagram DM</option>
+          </select>
+        </div>
+
+        <!-- Dynamic contact field -->
+        <div class="form-group" id="contact-field-wrap" style="display:none;">
+          <label id="contact-field-label">ข้อมูลติดต่อ</label>
+          <input type="text" id="f_contact" placeholder="">
+          <div id="contact-field-hint" style="font-size:12px;color:#94a3b8;margin-top:5px;"></div>
+        </div>
+
+        <div class="form-group">
+          <label>ข้อความเพิ่มเติม (ถ้ามี)</label>
+          <textarea id="f_note" rows="2" placeholder="เช่น มีโรคประจำตัว, ต้องการความคุ้มครองเพิ่มเติม..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          📩 ส่งข้อมูล รับคำปรึกษาฟรี
+        </button>
+
+        <p class="privacy-note">
+          🔒 ข้อมูลของคุณจะถูกเก็บเป็นความลับ<br>
+          ใช้เพื่อให้คำแนะนำด้านประกันเท่านั้น
+        </p>
+      </form>
+    </div>
+
+    <!-- Success -->
+    <div class="success-box" id="success-box">
+      <div class="check-circle">✅</div>
+      <h2>ส่งข้อมูลเรียบร้อยแล้ว!</h2>
+      <p>ขอบคุณมากครับ 🙏<br>
+      จะติดต่อกลับภายใน <strong>24 ชั่วโมง</strong><br>
+      เพื่อแนะนำแผนที่เหมาะกับคุณที่สุด</p>
+      <br>
+      <p style="font-size:13px;color:#94a3b8;">ติดต่อด่วน: กด Add LINE / FB ได้เลยครับ</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  ตัวแทนประกันชีวิตที่ได้รับใบอนุญาต · เลขที่ใบอนุญาต <strong>6601036914</strong><br>
+  ข้อมูลนี้เป็นการให้คำปรึกษาเบื้องต้น ไม่ถือเป็นการเสนอขายประกัน<br>
+  © 2026 · ให้บริการด้วยใจ
+</div>
+
+<script>
+  // ========================================================
+  // CONFIG — เปลี่ยน URL นี้หลังจากตั้ง Google Apps Script
+  // ========================================================
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLq0E3Q9RAWUjqE8o6CdaNCwK1f3GUw_ZcQm-dp4fC4Hi-cms5JsmnSoME4fQ1l9cX5w/exec';
+  // ========================================================
+
+  const form = document.getElementById('leadForm');
+  const btn  = document.getElementById('submitBtn');
+  const successBox = document.getElementById('success-box');
+  const formSection = document.getElementById('form-section');
+
+  // Phone formatting
+  document.getElementById('f_phone').addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').slice(0, 10);
+  });
+
+  // Dynamic contact field
+  function showContactField(channel) {
+    const wrap    = document.getElementById('contact-field-wrap');
+    const lbl     = document.getElementById('contact-field-label');
+    const input   = document.getElementById('f_contact');
+    const hint    = document.getElementById('contact-field-hint');
+
+    const config = {
+      'โทรศัพท์': {
+        label: '📞 เบอร์โทรศัพท์ที่ต้องการให้โทรกลับ',
+        placeholder: '0XX-XXX-XXXX',
+        hint: 'ระบุเบอร์ที่สะดวกรับสายได้ (อาจซ้ำกับข้างบนได้)',
+        type: 'tel',
+        maxlength: '10'
+      },
+      'LINE': {
+        label: '💬 LINE ID ของคุณ',
+        placeholder: 'เช่น @yourlineid หรือ yourname',
+        hint: 'ใส่ LINE ID ที่ค้นหาแล้วเจอ เพื่อให้ Add เพื่อนได้ถูกต้อง',
+        type: 'text',
+        maxlength: '50'
+      },
+      'Facebook Messenger': {
+        label: '💙 ชื่อ Facebook ของคุณ',
+        placeholder: 'เช่น Somchai Jaidee หรือ URL Facebook',
+        hint: 'ใส่ชื่อบัญชี Facebook หรือ URL โปรไฟล์ เพื่อให้ส่งข้อความหาได้',
+        type: 'text',
+        maxlength: '100'
+      },
+      'Instagram DM': {
+        label: '📸 ชื่อ Instagram (@username)',
+        placeholder: 'เช่น @yourinstagram',
+        hint: 'ใส่ Username Instagram ของคุณ (ขึ้นต้นด้วย @)',
+        type: 'text',
+        maxlength: '50'
+      }
+    };
+
+    if (channel && config[channel]) {
+      const c = config[channel];
+      lbl.textContent   = c.label;
+      input.placeholder = c.placeholder;
+      input.type        = c.type;
+      input.maxLength   = c.maxlength;
+      hint.textContent  = c.hint;
+      wrap.style.display = 'block';
+      input.value = '';
+
+      // ลบ event listener เก่าออกก่อนทุกครั้ง (ป้องกัน listener ซ้ำ)
+      const newInput = input.cloneNode(true);
+      input.parentNode.replaceChild(newInput, input);
+      const freshInput = document.getElementById('f_contact');
+
+      // Auto-fill phone + กรองเฉพาะตัวเลข เฉพาะช่องทางโทรศัพท์เท่านั้น
+      if (channel === 'โทรศัพท์') {
+        const mainPhone = document.getElementById('f_phone').value;
+        if (mainPhone) freshInput.value = mainPhone;
+        freshInput.addEventListener('input', function() {
+          this.value = this.value.replace(/\D/g, '').slice(0, 10);
+        });
+      }
+    } else {
+      wrap.style.display = 'none';
+      input.value = '';
+    }
+  }
+  window.showContactField = showContactField;
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Validate
+    const name  = document.getElementById('f_name').value.trim();
+    const phone = document.getElementById('f_phone').value.trim();
+    const age   = document.getElementById('f_age').value;
+    const types = [...document.querySelectorAll('input[name="ins_type"]:checked')]
+                    .map(c => c.value).join(', ');
+
+    if (!name)  { alert('กรุณากรอกชื่อ-นามสกุล'); return; }
+    if (phone.length < 9) { alert('กรุณากรอกเบอร์โทรให้ถูกต้อง'); return; }
+    if (!age)   { alert('กรุณาเลือกช่วงอายุ'); return; }
+    if (!types) { alert('กรุณาเลือกประเภทประกันที่สนใจ'); return; }
+
+    const budget   = document.querySelector('input[name="budget"]:checked')?.value || '-';
+    const channel  = document.getElementById('f_channel').value || '-';
+    const contact  = document.getElementById('f_contact').value.trim() || '-';
+    const note     = document.getElementById('f_note').value.trim() || '-';
+    const source   = document.referrer || 'Direct / Story Link';
+    const ts       = new Date().toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' });
+
+    const payload = { name, phone, age, ins_type: types, budget, channel, contact_info: contact, note, source, timestamp: ts };
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>กำลังส่งข้อมูล...';
+
+    try {
+      // Send to Google Apps Script
+      if (SCRIPT_URL && SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      }
+      // Show success regardless of no-cors response
+      formSection.style.display = 'none';
+      successBox.style.display  = 'block';
+
+      // Save locally as backup
+      try {
+        const leads = JSON.parse(localStorage.getItem('leads') || '[]');
+        leads.push(payload);
+        localStorage.setItem('leads', JSON.stringify(leads));
+      } catch(err) {}
+
+    } catch(err) {
+      btn.disabled = false;
+      btn.innerHTML = '📩 ส่งข้อมูล รับคำปรึกษาฟรี';
+      alert('เกิดข้อผิดพลาด กรุณาลองอีกครั้ง หรือติดต่อโดยตรงได้เลยครับ');
+    }
+  });
+</script>
+</body>
+</html>
